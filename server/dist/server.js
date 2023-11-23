@@ -1,6 +1,34 @@
 "use strict";
-const express = require("express");
-const app = express();
-app.get("test", (req, res) => {
-    res.json({ message: "Hello World" });
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const dotenv_1 = __importDefault(require("dotenv"));
+const mongoose_1 = __importDefault(require("mongoose"));
+// importing register routes
+const register_1 = __importDefault(require("./routes/register"));
+const app = (0, express_1.default)();
+// general middlewares
+app.use((0, cors_1.default)());
+app.use(body_parser_1.default.json());
+dotenv_1.default.config();
+// connecting to mongodb
+// console log the url to check if it is correct
+mongoose_1.default
+    .connect(process.env.MONGO_URL ? process.env.MONGO_URL : "")
+    .then(() => {
+    console.log("Connected to mongodb");
+});
+// routes middlewares
+app.use("/api/register", register_1.default);
+const PORT = process.env.PORT || 4000;
+app.get("/test", (_req, res) => {
+    console.log("hey");
+    res.json("Hello Typescript!");
+});
+app.listen(PORT, () => {
+    console.log(`Server is running on portss ${PORT}`);
 });

@@ -1,6 +1,36 @@
-import express , {Request, Response} from "express";
+import express, { Request, Response } from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+
+// importing register routes
+import registerRoutes from "./routes/register";
 const app = express();
 
-app.get("test", (_req: Request, res: Response) => {
-    res.send("Hello World!");
+// general middlewares
+app.use(cors());
+app.use(bodyParser.json());
+dotenv.config();
+
+// connecting to mongodb
+// console log the url to check if it is correct
+mongoose
+  .connect(process.env.MONGO_URL ? process.env.MONGO_URL : "")
+  .then(() => {
+    console.log("Connected to mongodb");
+  });
+
+// routes middlewares
+app.use("/api/register", registerRoutes);
+
+const PORT = process.env.PORT || 4000;
+
+app.get("/test", (_req: Request, res: Response) => {
+  console.log("hey");
+  res.json("Hello Typescript!");
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on portss ${PORT}`);
 });
