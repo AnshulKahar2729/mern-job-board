@@ -21,9 +21,9 @@ dotenv_1.default.config();
 const router = express_1.default.Router();
 const SECRET = process.env.JWT_SECRET_KEY;
 router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
     // checking if user exists
-    const userDoc = yield User_1.default.findOne({ email });
+    const userDoc = yield User_1.default.findOne({ email, role });
     if (!userDoc) {
         res.status(403).json({ error: "User does not exist" });
         return;

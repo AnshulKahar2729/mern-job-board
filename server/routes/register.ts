@@ -11,10 +11,10 @@ const router = express.Router();
 const SECRET = process.env.JWT_SECRET_KEY;
 
 router.post("/", async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
 
   // checking if user exists
-  const alreadyExist = await User.findOne({ email });
+  const alreadyExist = await User.findOne({ email, role });
   if (alreadyExist) {
     res.status(403).json({ error: "User already exists" });
   } else {
@@ -24,7 +24,7 @@ router.post("/", async (req: Request, res: Response) => {
     console.log(hashedPassword);
 
     // create a new user
-    const userDoc = new User({ email, password: hashedPassword });
+    const userDoc = new User({ email, password: hashedPassword, role });
     await userDoc.save();
     const token = jwt.sign({ id: userDoc._id.toString()}, SECRET || "", { expiresIn: "1h" });
     res.json(token);

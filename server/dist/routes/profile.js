@@ -13,30 +13,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const auth_1 = require("../middleware/auth");
 const User_1 = __importDefault(require("../models/User"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const dotenv_1 = __importDefault(require("dotenv"));
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-dotenv_1.default.config();
 const router = express_1.default.Router();
-const SECRET = process.env.JWT_SECRET_KEY;
-router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password, role } = req.body;
-    // checking if user exists
-    const alreadyExist = yield User_1.default.findOne({ email, role });
-    if (alreadyExist) {
-        res.status(403).json({ error: "User already exists" });
+router.get("/", auth_1.authJWT, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userID } = req.headers;
+    const userDoc = yield User_1.default.findById(userID);
+    if (!userDoc) {
+        res.status(403).json({ error: "User does not exist" });
+        return;
     }
     else {
-        // hash the password
-        const salt = bcryptjs_1.default.genSaltSync(10);
-        const hashedPassword = bcryptjs_1.default.hashSync(password, salt);
-        console.log(hashedPassword);
-        // create a new user
-        const userDoc = new User_1.default({ email, password: hashedPassword, role });
-        yield userDoc.save();
-        const token = jsonwebtoken_1.default.sign({ id: userDoc._id.toString() }, SECRET || "", { expiresIn: "1h" });
-        res.json(token);
+        res.json({ id: userDoc._id, email: userDoc.email, role: userDoc.role });
     }
 }));
 exports.default = router;

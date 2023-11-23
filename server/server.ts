@@ -4,9 +4,10 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
-// importing register routes
+// importing  routes
 import registerRoutes from "./routes/register";
 import loginRoutes from "./routes/login";
+import profileRoutes from "./routes/profile";
 import { authJWT } from "./middleware/auth";
 const app = express();
 
@@ -26,6 +27,7 @@ mongoose
 // routes middlewares
 app.use("/api/register", registerRoutes);
 app.use("/api/login", loginRoutes);
+app.use("/api/profile", profileRoutes)
 
 const PORT = process.env.PORT || 4000;
 

@@ -11,10 +11,10 @@ const router = express.Router();
 const SECRET = process.env.JWT_SECRET_KEY;
 
 router.post("/", async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
 
   // checking if user exists
-  const userDoc = await User.findOne({ email });
+  const userDoc = await User.findOne({ email, role });
   if (!userDoc) {
     res.status(403).json({ error: "User does not exist" });
     return;
