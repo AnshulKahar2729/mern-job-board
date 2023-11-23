@@ -10,6 +10,8 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
 // importing register routes
 const register_1 = __importDefault(require("./routes/register"));
+const login_1 = __importDefault(require("./routes/login"));
+const auth_1 = require("./middleware/auth");
 const app = (0, express_1.default)();
 // general middlewares
 app.use((0, cors_1.default)());
@@ -24,10 +26,11 @@ mongoose_1.default
 });
 // routes middlewares
 app.use("/api/register", register_1.default);
+app.use("/api/login", login_1.default);
 const PORT = process.env.PORT || 4000;
-app.get("/test", (_req, res) => {
-    console.log("hey");
-    res.json("Hello Typescript!");
+app.get("/test", auth_1.authJWT, (req, res) => {
+    const userID = req.headers.userID;
+    res.json({ userID });
 });
 app.listen(PORT, () => {
     console.log(`Server is running on portss ${PORT}`);

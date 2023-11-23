@@ -23,20 +23,23 @@ const SECRET = process.env.JWT_SECRET_KEY;
 router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     // checking if user exists
-    const alreadyExist = yield User_1.default.findOne({ email });
-    if (alreadyExist) {
-        res.status(403).json({ error: "User already exists" });
+    const userDoc = yield User_1.default.findOne({ email });
+    if (!userDoc) {
+        res.status(403).json({ error: "User does not exist" });
+        return;
     }
     else {
-        // hash the password
-        const salt = bcryptjs_1.default.genSaltSync(10);
-        const hashedPassword = bcryptjs_1.default.hashSync(password, salt);
-        console.log(hashedPassword);
-        // create a new user
-        const userDoc = new User_1.default({ email, password: hashedPassword });
-        yield userDoc.save();
-        const token = jsonwebtoken_1.default.sign({ id: userDoc._id.toString() }, SECRET || "", { expiresIn: "1h" });
-        res.json(token);
+        const isPasswordCorrect = bcryptjs_1.default.compareSync(password, userDoc.password);
+        if (!isPasswordCorrect) {
+            res.status(403).json({ error: "Password is incorrect" });
+            return;
+        }
+        else {
+            const token = jsonwebtoken_1.default.sign({ id: userDoc._id.toString() }, SECRET || "", {
+                expiresIn: "1h",
+            });
+            res.json(token);
+        }
     }
 }));
 exports.default = router;

@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import User from "../models/User";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
 
 dotenv.config();
 
@@ -17,11 +18,15 @@ router.post("/", async (req: Request, res: Response) => {
   if (alreadyExist) {
     res.status(403).json({ error: "User already exists" });
   } else {
-    // creating new user
-    
-    const userDoc = new User({ email, password });
+    // hash the password
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+    console.log(hashedPassword);
+
+    // create a new user
+    const userDoc = new User({ email, password: hashedPassword });
     await userDoc.save();
-    const token = jwt.sign({ userDoc }, SECRET || "", { expiresIn: "24h" });
+    const token = jwt.sign({ id: userDoc._id.toString()}, SECRET || "", { expiresIn: "1h" });
     res.json(token);
   }
 });

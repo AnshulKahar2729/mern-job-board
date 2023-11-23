@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 
 // importing register routes
 import registerRoutes from "./routes/register";
+import loginRoutes from "./routes/login";
+import { authJWT } from "./middleware/auth";
 const app = express();
 
 // general middlewares
@@ -23,12 +25,13 @@ mongoose
 
 // routes middlewares
 app.use("/api/register", registerRoutes);
+app.use("/api/login", loginRoutes);
 
 const PORT = process.env.PORT || 4000;
 
-app.get("/test", (_req: Request, res: Response) => {
-  console.log("hey");
-  res.json("Hello Typescript!");
+app.get("/test", authJWT , (req: Request, res: Response) => {
+  const userID = req.headers.userID;
+  res.json({ userID });
 });
 
 app.listen(PORT, () => {
