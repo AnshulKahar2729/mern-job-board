@@ -27,6 +27,9 @@ router.post("/", async (req: Request, res: Response) => {
       const token = jwt.sign({ id: userDoc._id.toString() }, SECRET || "", {
         expiresIn: "1h",
       });
+
+      // save this in local storage
+      localStorage.setItem("token", token);
       res.json(token);
     }
   }

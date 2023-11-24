@@ -17,10 +17,10 @@ const useFetchUserDetails = () => {
     const fetchUserDetails = async () => {
       try {
         setIsLoading(true);
-        const { data } = await axios.get("http://localhost:4000/api/profile",{
-            headers: {
-                authorization : `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NWZjNzIxOTBlNTE1MjViOWMyMDQ3ZiIsImlhdCI6MTcwMDgyMDA3NSwiZXhwIjoxNzAwODIzNjc1fQ.j5KU5T1z-CPk_122ATEUXDrSq2Y2YgdtgXVIt0ReTFE`
-            }
+        const { data } = await axios.get("http://localhost:4000/api/profile", {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         setUser({ id: data.id, token: data.token, email: data.email });
         setUserDetails({ id: data.id, token: data.token, email: data.email });

@@ -26,7 +26,12 @@ router.post("/", async (req: Request, res: Response) => {
     // create a new user
     const userDoc = new User({ email, password: hashedPassword, role });
     await userDoc.save();
-    const token = jwt.sign({ id: userDoc._id.toString()}, SECRET || "", { expiresIn: "1h" });
+    const token = jwt.sign({ id: userDoc._id.toString() }, SECRET || "", {
+      expiresIn: "1h",
+    });
+
+    // save this in local storage
+    localStorage.setItem("token", token);
     res.json(token);
   }
 });
