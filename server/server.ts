@@ -12,7 +12,9 @@ import { authJWT } from "./middleware/auth";
 const app = express();
 
 // general middlewares
-app.use(cors());
+app.use(cors({
+  origin: "*"
+}));
 app.use(bodyParser.json());
 dotenv.config();
 

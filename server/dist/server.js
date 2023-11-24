@@ -15,7 +15,9 @@ const profile_1 = __importDefault(require("./routes/profile"));
 const auth_1 = require("./middleware/auth");
 const app = (0, express_1.default)();
 // general middlewares
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: "*"
+}));
 app.use(body_parser_1.default.json());
 dotenv_1.default.config();
 // connecting to mongodb
