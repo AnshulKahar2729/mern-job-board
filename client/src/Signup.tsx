@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import { createPortal } from "react-dom";
 import axios from "axios";
 
-const Login: React.FC = () => {
+const Signup: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [role, setRole] = useState<string>("");
@@ -23,8 +23,8 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className=" ">
-      <h1>Login</h1>
+    <div className="">
+      <h1>Signup</h1>
       <form onSubmit={handleSubmit}>
         <input
           style={{ display: "block" }}
@@ -59,4 +59,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Signup;

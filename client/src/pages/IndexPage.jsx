@@ -6,10 +6,13 @@ import { userAtom } from "../store/atoms/user";
 import axios from "axios";
 import { createPortal } from "react-dom";
 import Login from "../Login";
+import OverlayModal from "../components/Overlay/OverlayModal";
+import Signup from "../Signup";
 
 const IndexPage = () => {
   const [user, setUser] = useRecoilState(userAtom);
   const [showModal, setShowModal] = useState(false);
+  const [loginModal, setLoginModal] = useState(null);
 
   useEffect(() => {
     console.log("IndexPage");
@@ -35,11 +38,22 @@ const IndexPage = () => {
     <div>
       <IndexHeader
         onSignUpClick={() => {
+          setLoginModal(false);
+          setShowModal(!showModal);
+        }}
+        onLoginClick={() => {
+          setLoginModal(true);
           setShowModal(!showModal);
         }}
       />
       <Footer />
-      {showModal && createPortal(<Login />, document.getElementById("modal"))}
+      {showModal &&
+        createPortal(
+          <OverlayModal onClose={() => setShowModal(!showModal)}>
+            {loginModal ? <Login /> : <Signup />}
+          </OverlayModal>,
+          document.getElementById("modal")
+        )}
     </div>
   );
 };
