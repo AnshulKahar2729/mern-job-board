@@ -1,11 +1,11 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import { createPortal } from "react-dom";
 import axios from "axios";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [role, setRole] = useState<string>("");
-  
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,7 +23,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <>
+    <div className=" fixed top-1 bg-black" style={{width : "50vw", height : "50vh"}}>
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <input
@@ -55,7 +55,7 @@ const Login: React.FC = () => {
         />
         <button type="submit">Submit</button>
       </form>
-    </>
+    </div>
   );
 };
 

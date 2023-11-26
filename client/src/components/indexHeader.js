@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import PrimaryBtn from './buttons/primaryBtn';
-import SecondaryBtn from './buttons/secondaryBtn';
 import useScroll from '../hooks/scroll';
 
 
-const IndexHeader = () => {
+const IndexHeader = ({onSignUpClick}) => {
   const scrolled = useScroll();
 
   return (
@@ -16,8 +14,8 @@ const IndexHeader = () => {
             <div>About Us</div>
         </div>
         <div className='flex gap-6 items-center'>
-            <SecondaryBtn>Login</SecondaryBtn>
-            <PrimaryBtn>Sign Up</PrimaryBtn>
+          <button onClick={onSignUpClick} className="bg-gray-400 py-2 px-4 text-white rounded-md ">Login</button>
+          <button  className='bg-blue-600 py-2 px-4 text-white rounded-md'>Sign Up</button>
         </div>
     </header>
   );

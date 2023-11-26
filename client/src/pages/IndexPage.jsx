@@ -1,12 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import IndexHeader from "../components/indexHeader";
 import Footer from "../components/footer";
 import { useRecoilState } from "recoil";
 import { userAtom } from "../store/atoms/user";
 import axios from "axios";
+import { createPortal } from "react-dom";
+import Login from "../Login";
 
 const IndexPage = () => {
   const [user, setUser] = useRecoilState(userAtom);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     console.log("IndexPage");
@@ -30,8 +33,13 @@ const IndexPage = () => {
 
   return (
     <div>
-      <IndexHeader />
+      <IndexHeader
+        onSignUpClick={() => {
+          setShowModal(!showModal);
+        }}
+      />
       <Footer />
+      {showModal && createPortal(<Login />, document.getElementById("modal"))}
     </div>
   );
 };
