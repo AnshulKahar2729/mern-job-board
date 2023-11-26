@@ -5,6 +5,6 @@ export const userAtom = atom({
     default: {
         id: "",
         email: "",
-        token: "",
+        role: "",
     },
 });
