@@ -35,7 +35,11 @@ router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         // create a new user
         const userDoc = new User_1.default({ email, password: hashedPassword, role });
         yield userDoc.save();
-        const token = jsonwebtoken_1.default.sign({ id: userDoc._id.toString() }, SECRET || "", { expiresIn: "1h" });
+        const token = jsonwebtoken_1.default.sign({ id: userDoc._id.toString() }, SECRET || "", {
+            expiresIn: "1h",
+        });
+        // save this in local storage
+        localStorage.setItem("token", token);
         res.json(token);
     }
 }));

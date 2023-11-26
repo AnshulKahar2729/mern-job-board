@@ -1,17 +1,19 @@
-import React from "react";
 import "./App.css";
-import useFetchUserDetails from "./hooks/user";
+import IndexHeader from "./components/indexHeader";
+import Login from "./Login";
+import Footer from "./components/footer";
+import {Routes, Route} from "react-router-dom";
+import IndexPage from "./pages/IndexPage";
 
-const  App = () =>  {
+const App = () => {
 
-  const {isLoading, user} = useFetchUserDetails();
-
-  return (<div className="App">
-    {isLoading}
-    {user?.email}
-    {user?.id}
-    {user?.token}
-    </div>);
-}
+  return (
+    <div className="App" style={{height: "200vh"}}>
+      <Routes>
+        <Route path="/" element={<IndexPage/>}/>
+      </Routes>
+    </div>
+  );
+};
 
 export default App;
