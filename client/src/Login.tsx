@@ -1,8 +1,14 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { createPortal } from "react-dom";
 import axios from "axios";
+import { redirect } from "react-router-dom";
 
-const Login: React.FC = () => {
+interface LoginProps {
+  closeModal: () => void;
+}
+
+const Login: React.FC<LoginProps> = (LoginProps) => {
+  const { closeModal } = LoginProps;
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [role, setRole] = useState<string>("");
@@ -17,6 +23,7 @@ const Login: React.FC = () => {
       });
 
       localStorage.setItem("token", data);
+      closeModal();
     } catch (err) {
       console.log(err);
     }
@@ -53,7 +60,9 @@ const Login: React.FC = () => {
           type="text"
           placeholder="Role"
         />
-        <button type="submit">Submit</button>
+        <button className="bg-white" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );

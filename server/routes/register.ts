@@ -31,7 +31,6 @@ router.post("/", async (req: Request, res: Response) => {
     });
 
     // save this in local storage
-    localStorage.setItem("token", token);
     res.json(token);
   }
 });

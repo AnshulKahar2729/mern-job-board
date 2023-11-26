@@ -39,7 +39,6 @@ router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             expiresIn: "1h",
         });
         // save this in local storage
-        localStorage.setItem("token", token);
         res.json(token);
     }
 }));

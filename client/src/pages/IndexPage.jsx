@@ -19,20 +19,25 @@ const IndexPage = () => {
     console.log(user);
 
     const token = localStorage.getItem("token");
-
     const fetchUser = async () => {
-      const { data } = await axios.get("http://localhost:4000/api/profile", {
-        headers: {
-          authoirzation: `Bearer ${token}`,
-        },
-      });
+      try {
+        const { data } = await axios.get("http://localhost:4000/api/profile", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
 
-      console.log(data);
-      setUser(data);
+        console.log(data);
+        setUser(data);
+        console.log(user);
+      } catch (error) {
+        console.log("Error from /profile");
+        console.log(error);
+      }
     };
 
     if (token) fetchUser();
-  }, []);
+  }, [showModal]);
 
   return (
     <div>
@@ -46,11 +51,24 @@ const IndexPage = () => {
           setShowModal(!showModal);
         }}
       />
+      {user && <h1>{user.email} {user.id} {user.role}</h1>}
       <Footer />
       {showModal &&
         createPortal(
           <OverlayModal onClose={() => setShowModal(!showModal)}>
-            {loginModal ? <Login /> : <Signup />}
+            {loginModal ? (
+              <Login
+                closeModal={() => {
+                  setShowModal(!showModal);
+                }}
+              />
+            ) : (
+              <Signup
+                closeModal={() => {
+                  setShowModal(!showModal);
+                }}
+              />
+            )}
           </OverlayModal>,
           document.getElementById("modal")
         )}

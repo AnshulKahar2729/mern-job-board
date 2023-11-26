@@ -1,8 +1,14 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { createPortal } from "react-dom";
 import axios from "axios";
+import { redirect } from "react-router-dom";
 
-const Signup: React.FC = () => {
+interface SignupProps{
+  closeModal : () => void;
+}
+
+const Signup: React.FC<SignupProps> = (SignupProps) => {
+  const {closeModal} = SignupProps;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [role, setRole] = useState<string>("");
@@ -10,13 +16,14 @@ const Signup: React.FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const { data } = await axios.post("http://localhost:4000/api/login", {
+      const { data } = await axios.post("http://localhost:4000/api/register", {
         email,
         password,
         role,
       });
 
       localStorage.setItem("token", data);
+      closeModal();
     } catch (err) {
       console.log(err);
     }
