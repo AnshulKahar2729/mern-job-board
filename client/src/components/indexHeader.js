@@ -6,7 +6,7 @@ const IndexHeader = ({onSignUpClick,onLoginClick}) => {
   const scrolled = useScroll();
 
   return (
-    <header className={`bg-white h-20 w-full flex justify-between items-center ${scrolled ? 'shadow-md' : ''}`} style={{paddingInline:"12.5%"}}>
+    <header className={`bg-white h-20 w-full flex sticky top-0 z-[1000] justify-between items-center ${scrolled ? 'shadow-md' : ''}`} style={{paddingInline:"12.5%"}}>
         <div className=' '>JobLelo</div>
         <div className='flex gap-6'>
             <div>Contact</div>

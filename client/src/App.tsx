@@ -8,7 +8,7 @@ import IndexPage from "./pages/IndexPage";
 const App = () => {
 
   return (
-    <div className="App" style={{height: "200vh"}}>
+    <div className="App ">
       <Routes>
         <Route path="/" element={<IndexPage/>}/>
       </Routes>

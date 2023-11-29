@@ -8,6 +8,7 @@ import { createPortal } from "react-dom";
 import Login from "../Login";
 import OverlayModal from "../components/Overlay/OverlayModal";
 import Signup from "../Signup";
+import Hero from "../components/Hero";
 
 const IndexPage = () => {
   const [user, setUser] = useRecoilState(userAtom);
@@ -40,8 +41,9 @@ const IndexPage = () => {
   }, [showModal]);
 
   return (
-    <div>
-      <IndexHeader
+    <div className="h-[200vh] bg-[#F6F7FA]">
+
+      {<IndexHeader
         onSignUpClick={() => {
           setLoginModal(false);
           setShowModal(!showModal);
@@ -50,8 +52,11 @@ const IndexPage = () => {
           setLoginModal(true);
           setShowModal(!showModal);
         }}
-      />
-      {user && <h1>{user.email} {user.id} {user.role}</h1>}
+      />}
+      <div className="">
+        <Hero/>
+      </div>
+      
       <Footer />
       {showModal &&
         createPortal(

@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* Add this style to your CSS */
+.suggestions-container {
+  max-height: 248px; /* Set the maximum height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  scrollbar-width: thin; /* Set a thin scrollbar */
+  scrollbar-color: transparent transparent; /* Set scrollbar color to transparent */
+}
+
+.suggestions-container::-webkit-scrollbar {
+  width: 6px; /* Set the width of the scrollbar for WebKit browsers */
+}
+
+.suggestions-container::-webkit-scrollbar-thumb {
+  background-color: transparent; /* Set the color of the scrollbar thumb to transparent for WebKit browsers */
+}
