@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 import registerRoutes from "./routes/register";
 import loginRoutes from "./routes/login";
 import profileRoutes from "./routes/profile";
+import searchResultsRoutes from "./routes/searchResults";
 import { authJWT } from "./middleware/auth";
 const app = express();
 
@@ -30,6 +31,7 @@ mongoose
 app.use("/api/register", registerRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("api/searchResults", searchResultsRoutes);
 
 const PORT = process.env.PORT || 4000;
 

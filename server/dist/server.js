@@ -12,6 +12,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const register_1 = __importDefault(require("./routes/register"));
 const login_1 = __importDefault(require("./routes/login"));
 const profile_1 = __importDefault(require("./routes/profile"));
+const searchResults_1 = __importDefault(require("./routes/searchResults"));
 const auth_1 = require("./middleware/auth");
 const app = (0, express_1.default)();
 // general middlewares
@@ -31,6 +32,7 @@ mongoose_1.default
 app.use("/api/register", register_1.default);
 app.use("/api/login", login_1.default);
 app.use("/api/profile", profile_1.default);
+app.use("api/searchResults", searchResults_1.default);
 const PORT = process.env.PORT || 4000;
 app.get("/test", auth_1.authJWT, (req, res) => {
     const userID = req.headers.userID;

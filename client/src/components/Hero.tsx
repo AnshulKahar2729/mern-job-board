@@ -1,3 +1,4 @@
+import axios from "axios";
 import { userAtom } from "../store/atoms/user";
 import SearchIcon from "./icons/SearchIcon";
 import React, {
@@ -7,6 +8,7 @@ import React, {
   useState,
   useEffect,
 } from "react";
+import { redirect, useNavigate } from "react-router-dom";
 
 const backendSkillArray = [
   "JavaScript",
@@ -159,6 +161,8 @@ const Hero: React.FC = () => {
     useState<boolean>(false);
   const [showExpSuggestion, setShowExpSuggestion] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+
   const makeSuggestion = (value: string, dataArray: string[]): string[] => {
     const suggestions = dataArray.filter((suggestion, index) => {
       const lowerCaseSuggestion = suggestion.toLowerCase();
@@ -205,9 +209,10 @@ const Hero: React.FC = () => {
     setLocationArray(locationSuggestion);
   };
 
-  const submitHandler = (event: FormEvent<HTMLFormElement>) => {
+  const submitHandler = async(event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(skills, experience, location);
+    const exp : string = experience.split(" ")[0];
+    navigate(`/jobs?skills=${skills}&experience=${exp}&location=${location}`);
   };
 
   return (
