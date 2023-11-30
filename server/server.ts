@@ -9,6 +9,7 @@ import registerRoutes from "./routes/register";
 import loginRoutes from "./routes/login";
 import profileRoutes from "./routes/profile";
 import searchResultsRoutes from "./routes/searchResults";
+import jobsRoutes from "./routes/jobs";
 import { authJWT } from "./middleware/auth";
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/api/register", registerRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("api/searchResults", searchResultsRoutes);
+app.use("/api/jobs", jobsRoutes);
 
 const PORT = process.env.PORT || 4000;
 
