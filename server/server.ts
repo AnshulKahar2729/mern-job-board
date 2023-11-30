@@ -29,7 +29,7 @@ mongoose
 // routes middlewares
 app.use("/api/register", registerRoutes);
 app.use("/api/login", loginRoutes);
-app.use("/api/profile", profileRoutes)
+app.use("/api/profile", profileRoutes);
 
 const PORT = process.env.PORT || 4000;
 

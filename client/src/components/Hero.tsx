@@ -1,6 +1,12 @@
 import { userAtom } from "../store/atoms/user";
 import SearchIcon from "./icons/SearchIcon";
-import React, { useRef,ChangeEvent, FormEvent, useState, useEffect } from "react";
+import React, {
+  useRef,
+  ChangeEvent,
+  FormEvent,
+  useState,
+  useEffect,
+} from "react";
 
 const backendSkillArray = [
   "JavaScript",
@@ -140,17 +146,18 @@ const backendExpArray = [
 ];
 const Hero: React.FC = () => {
   const [skills, setSkills] = useState<string>("");
-  // const skillsRef = useRef<HTMLInputElement>(null);
+  const skillsRef = useRef<HTMLInputElement>(null);
   const [experience, setExperience] = useState<string>("");
   const [location, setLocation] = useState<string>("");
+  const locationRef = useRef<HTMLInputElement>(null);
   const [skillsArray, setSkillsArray] = useState<string[]>([]);
   const [locationArray, setLocationArray] = useState<string[]>([]);
   const [expArray, setExpArray] = useState<string[]>([]);
-  const [showSkillSuggestion, setShowSkillSugegestion] =
+  const [showSkillSuggestion, setShowSkillSuggestion] =
     useState<boolean>(false);
-  const [showLocationSuggestion, setShowLocationSugegestion] =
+  const [showLocationSuggestion, setShowLocationSuggestion] =
     useState<boolean>(false);
-  const [showExpSuggestion, setShowExpSugegestion] = useState<boolean>(false);
+  const [showExpSuggestion, setShowExpSuggestion] = useState<boolean>(false);
 
   const makeSuggestion = (value: string, dataArray: string[]): string[] => {
     const suggestions = dataArray.filter((suggestion, index) => {
@@ -201,7 +208,7 @@ const Hero: React.FC = () => {
   const submitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(skills, experience, location);
-  }
+  };
 
   return (
     <div className=" px-[12.5%] pt-20">
@@ -212,21 +219,27 @@ const Hero: React.FC = () => {
         5 lakh+ jobs for you to explore
       </p>
 
-      <form onSubmit={submitHandler} className="  w-[75%] bg-white mx-auto rounded-full flex items-center shadow-lg">
+      <form
+        onSubmit={submitHandler}
+        className="  w-[75%] bg-white mx-auto rounded-full flex items-center shadow-lg"
+      >
         <div className=" py-5 px-2 w-full flex text-lg">
           <SearchIcon />
           <div className=" w-full ml-2">
             <input
-            // ref={skillsRef}
+              ref={skillsRef}
               onChange={onSkillsChangeHandler}
               value={skills}
               type="text"
               onFocus={() => {
-                setShowSkillSugegestion(true);
+                console.log("focus");
+                setShowSkillSuggestion(true);
               }}
               onBlur={() => {
+                console.log("blur");
                 setTimeout(() => {
-                  setShowSkillSugegestion(false);
+                  console.log(" blur timeout");
+                  setShowSkillSuggestion(false);
                 }, 250);
               }}
               className=" h-full pr-20 text-lg placeholder: font-normal focus:outline-none "
@@ -238,12 +251,12 @@ const Hero: React.FC = () => {
               value={experience}
               type="text"
               onFocus={() => {
-                setShowExpSugegestion(true);
+                setShowExpSuggestion(true);
               }}
               onBlur={() => {
                 // Delay hiding the suggestions container to allow time for onClick event
                 setTimeout(() => {
-                  setShowExpSugegestion(false);
+                  setShowExpSuggestion(false);
                 }, 250); // You can adjust the delay as needed
               }}
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -255,15 +268,16 @@ const Hero: React.FC = () => {
           </div>
           <div className=" w-full ml-2">
             <input
+              ref={locationRef}            
               value={location}
               onChange={onLocationChangeHandler}
               type="text"
               onFocus={() => {
-                setShowLocationSugegestion(true);
+                setShowLocationSuggestion(true);
               }}
-              onBlur={()=>{
+              onBlur={() => {
                 setTimeout(() => {
-                  setShowLocationSugegestion(false);
+                  setShowLocationSuggestion(false);
                 }, 250);
               }}
               className=" h-full w-full text-lg placeholder: font-normal focus:outline-none "
@@ -272,7 +286,10 @@ const Hero: React.FC = () => {
           </div>
 
           <div className=" mr-2">
-            <button type="submit" className=" bg-[#2563EB] px-7 py-1 rounded-full text-white">
+            <button
+              type="submit"
+              className=" bg-[#2563EB] px-7 py-1 rounded-full text-white"
+            >
               Search
             </button>
           </div>
@@ -285,7 +302,12 @@ const Hero: React.FC = () => {
             <div
               key={index}
               onClick={() => {
-                setSkills(skill);
+                console.log("clicked");
+                setSkills(`${skill}`);
+                setTimeout(() => {
+                  skillsRef.current?.focus();
+                  setSkillsArray(backendSkillArray);
+                }, 250);
               }}
               className={` ${index === 0 ? "pt-2" : ""} ${
                 index === skillsArray.length - 1 ? "pb-2" : ""
@@ -323,6 +345,10 @@ const Hero: React.FC = () => {
               key={index}
               onClick={() => {
                 setLocation(location);
+                setTimeout(() => {
+                  locationRef.current?.focus();
+                  setLocationArray(backendLocationArray);
+                }, 250);
               }}
               className={` ${index === 0 ? "pt-2" : ""} ${
                 index === locationArray.length - 1 ? "pb-2" : ""
