@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import FilterLogic from "../components/filterSection/filterLogic";
+import ProfileHeader
 
 interface JobType {
   jobTitle: string;
@@ -51,29 +53,9 @@ const SearchResultPage = () => {
   }, []);
 
   return (
-    <div>
-      {/* {skillsParam} {experienceParam} {locationParam} */}
-      {jobs.map((job: JobType, index: number) => (
-        <div key={index}>
-          <h1>Title :  {job.jobTitle}</h1>
-          <h2> Company : {job.jobCompany}</h2>
-          <h3> Location : {job.jobLocation}</h3>
-          <h4> Type :  {job.jobType}</h4>
-          <h5> MinExp : {job.jobMinExperience}</h5>
-          <h6> MaxExp : {job.jobMaxExperience}</h6>
-          <p> JobDescp : {job.jobDescription}</p>
-          <p> JobRole : {job.jobRole}</p>
-          <p> JobOpenings : {job.jobOpenings}</p>
-          <p> JobSkills : {job.jobSkills}</p>
-          <p> JobPosted :  {job.jobPosted}</p>
-          <p> MinSalary : {job.jobMinSalary}</p>
-          <p> MaxSalary : {job.jobMaxSalary}</p>
-          <br />
-        </div>
-        
-      ))}
-      <h1>Search Result Page</h1>
-    </div>
+    <>
+    <ProfileHeader/>
+    </>
   );
 };
 
