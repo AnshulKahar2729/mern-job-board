@@ -71,11 +71,11 @@ const SearchResultPage = () => {
         <UserHeader />
       ) : (
         <IndexHeader
-          onLoginClick={() => {
+          onSignUpClick={() => {
             setLoginModal(false);
             setShowModal(!showModal);
           }}
-          onSignUpClick={() => {
+          onLoginClick={() => {
             setLoginModal(true);
             setShowModal(!showModal);
           }}
