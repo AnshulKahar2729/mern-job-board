@@ -12,8 +12,8 @@ import Hero from "../components/Hero";
 
 const IndexPage = () => {
   const [user, setUser] = useRecoilState(userAtom);
-  const [showModal, setShowModal] = useState(false);
-  const [loginModal, setLoginModal] = useState(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [loginModal, setLoginModal] = useState<boolean>(false);
 
   useEffect(() => {
     console.log("IndexPage");
@@ -75,7 +75,7 @@ const IndexPage = () => {
               />
             )}
           </OverlayModal>,
-          document.getElementById("modal")
+          document.getElementById("modal")!
         )}
     </div>
   );

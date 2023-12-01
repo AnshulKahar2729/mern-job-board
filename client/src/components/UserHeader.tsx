@@ -3,7 +3,7 @@ import { IoSearch } from "react-icons/io5";
 import { FaRegBell } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
 
-function UserHeader() {
+const UserHeader = () => {
   
   return (
     <>

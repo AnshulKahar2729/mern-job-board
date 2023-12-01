@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import useScroll from '../hooks/scroll';
 
+interface IndexHeaderProps{
+  onSignUpClick:()=>void;
+  onLoginClick:()=>void;
+}
 
-const IndexHeader = ({onSignUpClick,onLoginClick}) => {
+const IndexHeader:React.FC <IndexHeaderProps> = (IndexHeaderProps) => {
+
+  const {onSignUpClick,onLoginClick} = IndexHeaderProps;
+
   const scrolled = useScroll();
 
   return (
