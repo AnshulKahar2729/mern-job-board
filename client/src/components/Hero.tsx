@@ -10,151 +10,31 @@ import React, {
 } from "react";
 import { redirect, useNavigate } from "react-router-dom";
 
-const backendSkillArray = [
-  "JavaScript",
-  "React",
-  "Node.js",
-  "Express",
-  "HTML",
-  "CSS",
-  "MongoDB",
-  "SQL",
-  "Git",
-  "TypeScript",
-  "Redux",
-  "Vue.js",
-  "Angular",
-  "Python",
-  "Django",
-  "Flask",
-  "Java",
-  "Spring Boot",
-  "C#",
-  ".NET",
-  "PHP",
-  "Laravel",
-  "Ruby",
-  "Ruby on Rails",
-  "GraphQL",
-  "RESTful API",
-  "Responsive Design",
-  "Webpack",
-  "Jest",
-  "Testing Library",
-];
+interface JobType {
+  jobTitle: string;
+  jobDescription: string;
+  jobRole: string;
+  jobLocation: string;
+  jobCompany: string;
+  jobType: string;
+  jobMinExperience: number;
+  jobMaxExperience: number;
+  jobMinSalary: number;
+  jobMaxSalary: number;
+  jobPosted: string;
+  jobOpenings: number;
+  jobSkills: [string];
+}
 
-const backendLocationArray = [
-  "Ahmedabad",
-  "Ajmer",
-  "Allahabad",
-  "Amritsar",
-  "Aurangabad",
-  "Bareilly",
-  "Belgaum",
-  "Bhavnagar",
-  "Bhopal",
-  "Bhubaneswar",
-  "Calcutta",
-  "Chandigarh",
-  "Coimbatore",
-  "Cuttack",
-  "Davangere",
-  "Dharwad",
-  "Durgapur",
-  "Ernakulam",
-  "Faridabad",
-  "Ghaziabad",
-  "New York City",
-  "Los Angeles",
-  "Chicago",
-  "Houston",
-  "Phoenix",
-  "Philadelphia",
-  "San Antonio",
-  "San Diego",
-  "Dallas",
-  "San Jose",
-  "Austin",
-  "Jacksonville",
-  "Columbus",
-  "Fort Worth",
-  "Charlotte",
-  "Detroit",
-  "Indianapolis",
-  "San Francisco",
-  "Seattle",
-  "Denver",
-  "Portland",
-  "Milwaukee",
-  "Boston",
-  "Washington, D.C.",
-  "Memphis",
-  "Louisville",
-  "Baltimore",
-  "Raleigh",
-  "Las Vegas",
-  "Oklahoma City",
-  "Tucson",
-  "Albuquerque",
-  "Long Beach",
-  "Atlanta",
-  "Minneapolis",
-  "Miami",
-  "Cleveland",
-  "Kansas City",
-  "Omaha",
-  "Tulsa",
-  "Wichita",
-  "Nashville",
-  "New Orleans",
-  "El Paso",
-  "Colorado Springs",
-  "St. Louis",
-  "Sacramento",
-  "Oakland",
-];
-
-const backendExpArray = [
-  "1 year",
-  "2 years",
-  "3 years",
-  "4 years",
-  "5 years",
-  "6 years",
-  "7 years",
-  "8 years",
-  "9 years",
-  "10 years",
-  "11 years",
-  "12 years",
-  "13 years",
-  "14 years",
-  "15 years",
-  "16 years",
-  "17 years",
-  "18 years",
-  "19 years",
-  "20 years",
-  "21 years",
-  "22 years",
-  "23 years",
-  "24 years",
-  "25 years",
-  "26 years",
-  "27 years",
-  "28 years",
-  "29 years",
-  "30 years",
-];
 const Hero: React.FC = () => {
   const [skills, setSkills] = useState<string>("");
   const skillsRef = useRef<HTMLInputElement>(null);
-  const [experience, setExperience] = useState<string>("");
+  const [experience, setExperience] = useState<number |  undefined>(undefined);
   const [location, setLocation] = useState<string>("");
   const locationRef = useRef<HTMLInputElement>(null);
   const [skillsArray, setSkillsArray] = useState<string[]>([]);
   const [locationArray, setLocationArray] = useState<string[]>([]);
-  const [expArray, setExpArray] = useState<string[]>([]);
+  const [expArray, setExpArray] = useState<number[]>([]);
   const [showSkillSuggestion, setShowSkillSuggestion] =
     useState<boolean>(false);
   const [showLocationSuggestion, setShowLocationSuggestion] =
@@ -192,7 +72,7 @@ const Hero: React.FC = () => {
     setSkills(event.target.value);
     const value = event.target.value.toLowerCase();
 
-    const skillsSuggestion = makeSuggestion(value, backendSkillArray);
+    const skillsSuggestion = makeSuggestion(value, skillsArray);
 
     console.log(skillsSuggestion);
 
@@ -203,17 +83,61 @@ const Hero: React.FC = () => {
     setLocation(event.target.value);
     const value = event.target.value.toLowerCase();
 
-    const locationSuggestion = makeSuggestion(value, backendLocationArray);
+    const locationSuggestion = makeSuggestion(value, locationArray);
 
     console.log(locationSuggestion);
     setLocationArray(locationSuggestion);
   };
 
-  const submitHandler = async(event: FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const exp : string = experience.split(" ")[0];
-    navigate(`/jobs?skills=${skills}&experience=${exp}&location=${location}`);
+    console.log(skills, experience, location);
+    navigate(`/jobs?skills=${skills}&experience=${experience}&location=${location}`);
   };
+
+  useEffect(() => {
+    const getJobs = async () => {
+      const { data } = await axios.get("http://localhost:4000/api/jobs");
+      const jobsArray : [JobType] = data;
+      console.log(jobsArray);
+
+      const skillsArrWithDup : string[] = jobsArray.map((job: JobType) => job.jobSkills).flat()
+      const skillsArrWithoutDup : string[] = skillsArrWithDup.filter((skill, index, self) => {
+        return index === self.indexOf(skill);
+      })
+      const sortedSkillsArrWithoutDup : string[] = skillsArrWithoutDup.sort();
+
+      const titleArrWithDup : string[] = jobsArray.map((job: JobType) => job.jobTitle)
+      const titleArrWithoutDup : string[] = titleArrWithDup.filter((title, index, self) => {
+        return index === self.indexOf(title);
+      })
+      const sortedTitleArrWithoutDup : string[] = titleArrWithoutDup.sort();
+
+      const skillsAndTitleArrWithDup : string[] = sortedSkillsArrWithoutDup.concat(sortedTitleArrWithoutDup);
+      setSkillsArray(skillsAndTitleArrWithDup);
+
+      const locationArrWithDup : string[] = jobsArray.map((job: JobType) => job.jobLocation)
+      const locationArrWithoutDup : string[] = locationArrWithDup.filter((location, index, self) => {
+        return index === self.indexOf(location);
+      })
+      const sortedLocationArrWithoutDup : string[] = locationArrWithoutDup.sort();
+      setLocationArray(sortedLocationArrWithoutDup);
+
+      const minExpArr : number[] = jobsArray.map((job: JobType) => job.jobMinExperience);
+      const maxExpArr : number[] = jobsArray.map((job: JobType) => job.jobMaxExperience);
+
+      const expArrayWithDup : number[] = minExpArr.concat(maxExpArr);
+      const expArrayWithoutDup : number[] = expArrayWithDup.filter((exp, index, self) => {
+        return index === self.indexOf(exp);
+      })
+      const sortedExpArrWithoutDup : number[] = expArrayWithoutDup.sort((a, b) => a - b);
+      
+
+      setExpArray(sortedExpArrWithoutDup);
+    };
+
+    getJobs();
+  }, []);
 
   return (
     <div className=" px-[12.5%] pt-20">
@@ -265,7 +189,7 @@ const Hero: React.FC = () => {
                 }, 250); // You can adjust the delay as needed
               }}
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                setExperience(event.target.value);
+                setExperience(Number(event.target.value));
               }}
               className=" h-full w-full text-lg placeholder: font-normal focus:outline-none "
               placeholder="Select experience"
@@ -273,7 +197,7 @@ const Hero: React.FC = () => {
           </div>
           <div className=" w-full ml-2">
             <input
-              ref={locationRef}            
+              ref={locationRef}
               value={location}
               onChange={onLocationChangeHandler}
               type="text"
@@ -311,7 +235,7 @@ const Hero: React.FC = () => {
                 setSkills(`${skill}`);
                 setTimeout(() => {
                   skillsRef.current?.focus();
-                  setSkillsArray(backendSkillArray);
+                  setSkillsArray(skillsArray);
                 }, 250);
               }}
               className={` ${index === 0 ? "pt-2" : ""} ${
@@ -326,12 +250,12 @@ const Hero: React.FC = () => {
 
       {showExpSuggestion && (
         <div className=" font-medium flex flex-col bg-white text-black rounded-xl absolute top-[360px] right-[660px] w-[200px] h-auto max-h-[248px] overflow-y-auto suggestions-container">
-          {backendExpArray.map((exp, index) => (
+          {expArray.map((exp, index) => (
             <div
               key={index}
               onClick={() => {
                 console.log(exp);
-                setExperience(exp);
+                setExperience(Number(exp));
               }}
               className={` ${index === 0 ? "pt-2" : ""} ${
                 index === expArray.length - 1 ? "pb-2" : ""
@@ -352,7 +276,7 @@ const Hero: React.FC = () => {
                 setLocation(location);
                 setTimeout(() => {
                   locationRef.current?.focus();
-                  setLocationArray(backendLocationArray);
+                  setLocationArray(locationArray);
                 }, 250);
               }}
               className={` ${index === 0 ? "pt-2" : ""} ${
