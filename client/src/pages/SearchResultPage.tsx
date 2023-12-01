@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import FilterLogic from "../components/filterSection/filterLogic";
-import ProfileHeader
+import UserHeader from "../components/UserHeader";
 
 interface JobType {
   jobTitle: string;
@@ -36,10 +35,10 @@ const SearchResultPage = () => {
       jobsArray.map((job: JobType, index: number) => {
         if (skillsParam && experienceParam && locationParam) {
           if (
-            job.jobTitle.includes(skillsParam) &&
-            experienceParam >= job.jobMinExperience &&
+            (job.jobTitle.includes(skillsParam) || job.jobDescription.includes(skillsParam) || job.jobRole.includes(skillsParam) || job.jobSkills.includes(skillsParam)) &&
+            (experienceParam >= job.jobMinExperience &&
             experienceParam <= job.jobMaxExperience &&
-            job.jobLocation === locationParam
+            job.jobLocation === locationParam)
           ) {
             setJobs((prevJobs) => [...prevJobs, job]);
           }
@@ -53,9 +52,9 @@ const SearchResultPage = () => {
   }, []);
 
   return (
-    <>
-    <ProfileHeader/>
-    </>
+    <div>
+     <UserHeader/>
+    </div>
   );
 };
 
