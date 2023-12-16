@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import axios from "axios";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface LoginProps {
   closeModal: () => void;
@@ -13,6 +13,8 @@ const Login: React.FC<LoginProps> = (LoginProps) => {
   const [password, setPassword] = useState<string>("");
   const [role, setRole] = useState<string>("");
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -24,6 +26,7 @@ const Login: React.FC<LoginProps> = (LoginProps) => {
 
       localStorage.setItem("token", data);
       closeModal();
+      navigate("/profile");
     } catch (err) {
       console.log(err);
     }

@@ -4,11 +4,12 @@ import { useLocation } from "react-router-dom";
 import UserHeader from "../components/UserHeader";
 import { userAtom } from "../store/atoms/user";
 import { useRecoilState } from "recoil";
-import IndexHeader from "../components/indexHeader";
+import IndexHeader from "../components/IndexHeader";
 import { createPortal } from "react-dom";
 import OverlayModal from "../components/Overlay/OverlayModal";
 import Login from "../Login";
 import Signup from "../Signup";
+import { RiH1 } from "react-icons/ri";
 
 interface JobType {
   jobTitle: string;
@@ -52,8 +53,9 @@ const SearchResultPage = () => {
               job.jobSkills.includes(skillsParam)) &&
             experienceParam >= job.jobMinExperience &&
             experienceParam <= job.jobMaxExperience &&
-            job.jobLocation === locationParam
+            job.jobLocation == locationParam
           ) {
+            console.log(job);
             setJobs((prevJobs) => [...prevJobs, job]);
           }
         }
@@ -68,18 +70,22 @@ const SearchResultPage = () => {
   return (
     <div className=" bg-[#F6F7FA] ">
       {user.email ? (
-        <UserHeader />
+        <>
+          <UserHeader />
+        </>
       ) : (
-        <IndexHeader
-          onSignUpClick={() => {
-            setLoginModal(false);
-            setShowModal(!showModal);
-          }}
-          onLoginClick={() => {
-            setLoginModal(true);
-            setShowModal(!showModal);
-          }}
-        />
+        <>
+          <IndexHeader
+            onSignUpClick={() => {
+              setLoginModal(false);
+              setShowModal(!showModal);
+            }}
+            onLoginClick={() => {
+              setLoginModal(true);
+              setShowModal(!showModal);
+            }}
+          />
+        </>
       )}
 
       {showModal &&

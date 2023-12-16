@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import IndexHeader from "../components/indexHeader";
+import IndexHeader from "../components/IndexHeader";
 import Footer from "../components/footer";
 import { useRecoilState } from "recoil";
 import { userAtom } from "../store/atoms/user";
